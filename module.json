@@ -1,0 +1,26 @@
+{
+    "name": "condition-reminders",
+    "title": "Condition Reminders",
+    "description": "This module allows you to create ongoing conditions that players will be reminded about at the beginning of their turn during combat",
+    "author": "Skruds",
+    "version": "0.0.1",
+    "dependencies": [
+        {
+            "name": "dnd5e",
+            "type": "system"
+        }
+    ],
+    "scripts": [
+        "scripts/condition-reminders.js"
+    ],
+    "styles": [
+        "styles/condition-reminders.css"
+    ],
+    "languages": [
+        {
+          "lang": "en",
+          "name": "English",
+          "path": "languages/en.json"
+        }
+    ]
+}

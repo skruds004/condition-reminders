@@ -1,0 +1,20 @@
+{{log 'condition-list-template' this}}
+<form>
+  <ul class="condition-list flexcol" min-width="500">
+    {{#each conditions}}
+    <li class="flexrow" data-condition-id="{{id}}">
+      <button type="button" title="Toggle Condition" data-action="toggle" class="condition-list-icon-button">{{localize "CONDITION-REMINDERS.toggle-condition"}}</button>
+
+      <input type="text" value="{{label}}" name="{{id}}.label" data-dtype="String" />
+
+      <input type="text" value="{{description}}" name="{{id}}.description" data-dtype="String"  />
+
+      <button type="button" title="Delete Condition" data-action="delete" class="flex0 condition-list-icon-button">
+        <i class="fas fa-trash"></i>
+      </button>
+    </li> 
+    {{/each}}
+  </ul>
+
+  <button type="button" data-action="create"><i class="fas fa-plus"></i> {{localize "CONDITION-REMINDERS.add-condition"}}</button>
+</form>
