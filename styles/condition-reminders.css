@@ -1,3 +1,19 @@
+
+.condition-list-description {
+  font-family: 'Signika';
+  src: url('../fonts/signika/signika-regular.woff2') format('woff2');
+  flex: 6;
+  font-size: 14px !important;
+  flex-wrap: wrap;
+}
+
+.condition-list-label {
+  flex: 3 3;
+}
+
+
+
+
 .condition-reminders-control-tool {
   width: 36px;
   height: 36px;
@@ -22,12 +38,16 @@
 }
 
 .condition-list {
+  flex-flow: column;
     padding: 0;
     margin-top: 0;
     gap: 1em;
-  }
-  
-  .condition-list > li {
-    align-items: center;
-    gap: 0.5em;
-  }
+    min-width: 500px;
+}
+
+
+.condition-list > li {
+  align-items: center;
+  gap: 0.5em;
+}
+

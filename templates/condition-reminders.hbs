@@ -1,13 +1,13 @@
 {{log 'condition-list-template' this}}
-<form>
-  <ul class="condition-list flexcol" min-width="500">
+<form> 
+  <ul class="condition-list flexcol">
     {{#each conditions}}
     <li class="flexrow" data-condition-id="{{id}}">
-      <button type="button" title="Toggle Condition" data-action="toggle" class="condition-list-icon-button">{{localize "CONDITION-REMINDERS.toggle-condition"}}</button>
+      <button type="button" title="Toggle Condition" data-action="toggle" class="flex3 condition-list-icon-button">{{localize "CONDITION-REMINDERS.toggle-condition"}}</button>
 
-      <input type="text" value="{{label}}" name="{{id}}.label" data-dtype="String" />
+      <input type="text" value="{{label}}" name="{{id}}.label" data-dtype="String" class="condition-list-label"/>
 
-      <input type="text" value="{{description}}" name="{{id}}.description" data-dtype="String"  />
+      <textarea type="text" value="{{description}}" name="{{id}}.description" data-dtype="String" class="condition-list-description" >{{description}}</textarea>
 
       <button type="button" title="Delete Condition" data-action="delete" class="flex0 condition-list-icon-button">
         <i class="fas fa-trash"></i>

@@ -34,6 +34,29 @@ class ConditionList {
   ConditionList.initialize();
 });
 
+//this hook 'fixes' tokens that are supposed to or not supposed to have the condition-reminders icon
+Hooks.once('ready', () => {
+  //only run this hook once, change me later maybe
+  if(game.users.current.isGM) {
+    //iterate through each token on the canvas
+    for(let i = 0; i < canvas.tokens.objects.children.length; i++) {
+      let token = canvas.tokens.objects.children[i];
+      let includesIcon = false;
+      //see if the token has our icon attached
+      if(token.data.effects.includes(icon)) {
+        includesIcon = true;
+      }
+      //if / else if to toggle an icon that should or should not be there
+      if(includesIcon && ConditionListData.getNumTokenConditions(token.data._id) == 0) {
+        token.toggleEffect(icon);
+      }
+      else if(!includesIcon && ConditionListData.getNumTokenConditions(token.data._id) > 0) {
+        token.toggleEffect(icon);
+      }
+    }
+  }
+});
+
 /**
 * The data layer for our condition-reminders module
 */
@@ -205,6 +228,7 @@ class ConditionListData {
       //case of condition not having token id
       else {
         this.addCondition(conditionId, token.id);
+        console.log("condition added");
       }
     }
 
@@ -236,13 +260,16 @@ class ConditionListData {
       if(index > -1) {
         //splice to remove the token id
         condition.tokenIds.splice(index, 1);
-        //call updateCondition to update flags and make sure data is saved
-        this.updateCondition(conditionId, {tokenIds: condition.tokenIds});
+        
         //toggle the icon to remove it when the token has no conditions
         if(this.getNumTokenConditions(tokenId) == 0) {
-          let token = canvas.scene.data.tokens.get(tokenId);
-          token._object.toggleEffect(icon);
+          const token = canvas.scene.data.tokens.get(tokenId);
+          //token._object.toggleEffect(icon);
+          toggleIcon(token);
         }
+
+        //call updateCondition to update flags and make sure data is saved
+        this.updateCondition(conditionId, {tokenIds: condition.tokenIds});
       }
       return;
     }
@@ -260,16 +287,22 @@ class ConditionListData {
     const condition = this.allConditions[conditionId];
     //add token id to the condition
     condition.tokenIds.push(tokenId);
-    //call updateCondition to update flags and make sure data is saved
-    this.updateCondition(conditionId, {tokenIds: condition.tokenIds});
+    
     //toggle the icon to add it when the token has gotten its first condition
     if(this.getNumTokenConditions(tokenId) == 1) {
-      let token = canvas.scene.data.tokens.get(tokenId);
-      token._object.toggleEffect(icon);
+      const token = canvas.scene.data.tokens.get(tokenId);
+      //token._object.toggleEffect(icon);
+      toggleIcon(token);
       console.log(condition);
     }
+
+    //call updateCondition to update flags and make sure data is saved
+    this.updateCondition(conditionId, {tokenIds: condition.tokenIds});
     return;
   }
+
+  
+  
 }
 
 /**
@@ -322,7 +355,7 @@ class ConditionRemindersConfig extends FormApplication {
       }
 
       case 'toggle': {
-        ConditionListData.toggleCondition(conditionID);
+        await ConditionListData.toggleCondition(conditionID);
         this.render();
         break;
       }
@@ -368,7 +401,14 @@ class ConditionRemindersConfig extends FormApplication {
       expandedData
     });
   }
+
+  
 }
+
+async function toggleIcon(token) {
+  token.update(token._object.toggleEffect(icon));
+}
+
 
 let lastToken = null; //variable that keeps track of the last token in initiative order
 let firstRender = false; //skips the first call so this isn't called on initialization
@@ -376,9 +416,11 @@ let firstRender = false; //skips the first call so this isn't called on initiali
 Hooks.on('renderCombatTracker', (combatTracker, html) => {
   //skip a message being rendered when the combat tracker loads
   if(!firstRender) {
+    console.log(firstRender);
     firstRender = true;
     return;
   }
+  
   
   let comId = combatTracker.viewed.current.tokenId;
   //skip repeat messages (assumes combat is more than 1 token)
@@ -440,23 +482,25 @@ Hooks.on('renderCombatTracker', (combatTracker, html) => {
 
 //hook to put our condition reminders button under the token control tools
 Hooks.on('renderSceneControls', (sceneControls, html) => {
-  let findMe = html.find(`[data-control="token"]`);
-  findMe = findMe.find('ol.control-tools');
+  if(game.users.current.isGM) {
+    let findMe = html.find(`[data-control="token"]`);
+    findMe = findMe.find('ol.control-tools');
 
-  const tooltip = game.i18n.localize('CONDITION-REMINDERS.button-title');
-  //make sure this only renders for gm on settings
-  findMe.append(
-    `<li class="condition-reminders-control-tool" title="${tooltip}">
-        <i class ="fas fa-biohazard"></i>
-    </li>`
+    const tooltip = game.i18n.localize('CONDITION-REMINDERS.button-title');
+    //make sure this only renders for gm on settings
+    findMe.append(
+      `<li class="condition-reminders-control-tool" title="${tooltip}">
+          <i class ="fas fa-biohazard"></i>
+      </li>`
 
-  );
+    );
 
-  //on click our button will open up the form
-  html.on('click', '.condition-reminders-control-tool', (event) => {
-    const userId = $(event.currentTarget).parents('[data-user-id]')?.data()?.userId;
-    ConditionList.ConditionRemindersConfig.render(true, {userId});
-  });
+    //on click our button will open up the form
+    html.on('click', '.condition-reminders-control-tool', (event) => {
+      const userId = $(event.currentTarget).parents('[data-user-id]')?.data()?.userId;
+      ConditionList.ConditionRemindersConfig.render(true, {userId});
+    });
+  }
 });
 
 //hook to handle our message button clicks
