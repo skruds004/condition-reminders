@@ -414,6 +414,11 @@ let lastToken = null; //variable that keeps track of the last token in initiativ
 let firstRender = false; //skips the first call so this isn't called on initialization
 
 Hooks.on('renderCombatTracker', (combatTracker, html) => {
+  //skip this if combat is not happening
+  if(!combatTracker.viewed) {
+    return;
+  }
+
   //skip a message being rendered when the combat tracker loads
   if(!firstRender) {
     console.log(firstRender);
@@ -421,8 +426,8 @@ Hooks.on('renderCombatTracker', (combatTracker, html) => {
     return;
   }
   
-  
   let comId = combatTracker.viewed.current.tokenId;
+  
   //skip repeat messages (assumes combat is more than 1 token)
   if(comId == lastToken) {
     return;
