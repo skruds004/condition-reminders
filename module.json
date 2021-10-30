@@ -23,6 +23,8 @@
           "path": "languages/en.json"
         }
     ],
-    "download": "https://github.com/skruds004/condition-reminders/archive/refs/tags/v1.0.2.zip"
+    "url" : "https://github.com/skruds004/condition-reminders/",
+    "download": "",
+    "manifest": ""
 
 }
