@@ -24,7 +24,7 @@
         }
     ],
     "url" : "https://github.com/skruds004/condition-reminders/",
-    "download": "",
-    "manifest": ""
+    "download": "https://github.com/skruds004/condition-reminders/releases/download/v1.0.2/condition-reminders.zip",
+    "manifest": "https://github.com/skruds004/condition-reminders/releases/download/v1.0.2/module.json"
 
 }
