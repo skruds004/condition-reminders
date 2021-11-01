@@ -7,12 +7,15 @@
 
       <input type="text" value="{{label}}" name="{{id}}.label" data-dtype="String" class="condition-list-label"/>
 
-      <textarea type="text" value="{{description}}" name="{{id}}.description" data-dtype="String" class="condition-list-description" >{{description}}</textarea>
-
       <button type="button" title="Delete Condition" data-action="delete" class="flex0 condition-list-icon-button">
         <i class="fas fa-trash"></i>
       </button>
-    </li> 
+    </li>
+    <li class="breakline">
+      <textarea type="text" value="{{description}}" name="{{id}}.description" data-dtype="String" class="condition-list-description" >{{description}}</textarea>
+    </li>
+      
+    
     {{/each}}
   </ul>
 

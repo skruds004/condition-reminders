@@ -3,7 +3,7 @@
     "title": "Condition Reminders",
     "description": "This module allows you to create ongoing conditions that players will be reminded about at the beginning of their turn during combat",
     "author": "Skruds",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "dependencies": [
         {
             "name": "dnd5e",
@@ -24,7 +24,7 @@
         }
     ],
     "url" : "https://github.com/skruds004/condition-reminders/",
-    "download": "https://github.com/skruds004/condition-reminders/releases/download/v1.0.2/condition-reminders.zip",
-    "manifest": "https://github.com/skruds004/condition-reminders/releases/download/v1.0.2/module.json"
+    "download": "https://github.com/skruds004/condition-reminders/releases/download/v1.0.3/condition-reminders.zip",
+    "manifest": "https://github.com/skruds004/condition-reminders/releases/download/v1.0.3/module.json"
 
 }
